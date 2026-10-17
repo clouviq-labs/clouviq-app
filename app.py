@@ -7,9 +7,14 @@ app = Flask(__name__)
 VERSION = os.environ.get("APP_VERSION", "dev")
 
 
+def feature_on(name):
+    return os.environ.get(f"FEATURE_{name.upper()}", "false").lower() == "true"
+
+
 @app.get("/")
 def home():
-    return f"<h1>ClouViQ App</h1><p>version {VERSION}</p>"
+    title = "ClouViQ App · new look" if feature_on("new_ui") else "ClouViQ App"
+    return f"<h1>{title}</h1><p>version {VERSION}</p>"
 
 
 @app.get("/health")
