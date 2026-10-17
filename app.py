@@ -1,7 +1,7 @@
 """clouviq-app: the tiny web app every GitHub Masterclass demo builds, tests, releases and deploys."""
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 VERSION = os.environ.get("APP_VERSION", "dev")
@@ -10,6 +10,11 @@ VERSION = os.environ.get("APP_VERSION", "dev")
 @app.get("/")
 def home():
     return f"<h1>ClouViQ App</h1><p>version {VERSION}</p>"
+
+
+@app.get("/health")
+def health():
+    return jsonify(status="ok", version=VERSION)
 
 
 if __name__ == "__main__":
