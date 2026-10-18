@@ -24,7 +24,7 @@ def health():
 
 @app.get("/version")
 def version():
-    return jsonify(version=VERSON)
+    return jsonify(version=VERSION)
 
 
 def add(a, b):
