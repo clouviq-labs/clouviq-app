@@ -16,3 +16,4 @@ Questions? Open an issue on GitHub.
 
 Found a bug? Add a failing test first.
 Check it: curl localhost:8080/health
+Run the tests: pytest -q
