@@ -12,3 +12,4 @@ pip install -r requirements.txt
 pytest -q
 python app.py   # http://localhost:8080
 ```
+Questions? Open an issue on GitHub.
