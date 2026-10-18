@@ -19,3 +19,4 @@ Check it: curl localhost:8080/health
 Run in Docker: docker build -t clouviq-app . && docker run -p 8080:8080 clouviq-app
 Run the tests: pytest -q
 Prefer the terminal? Open a pull request with: gh pr create
+CI skips docs-only pushes.
