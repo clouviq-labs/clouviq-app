@@ -1,0 +1,27 @@
+name: Bug report
+description: Something is broken? Tell us.
+title: "[Bug]: "
+labels: ["bug"]
+type: Bug
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you see?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Run the app  2. Open /health"
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      options: ["1.0", "main"]
+    validations:
+      required: true
