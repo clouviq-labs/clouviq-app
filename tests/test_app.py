@@ -14,3 +14,8 @@ def test_health():
 def test_home_flag_off(monkeypatch):
     monkeypatch.delenv("FEATURE_NEW_UI", raising=False)
     assert b"new look" not in app.test_client().get("/").data
+
+
+def test_ready():
+    r = app.test_client().get("/ready")
+    assert r.status_code == 200
