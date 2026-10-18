@@ -13,3 +13,5 @@ pytest -q
 python app.py   # http://localhost:8080
 ```
 Questions? Open an issue on GitHub.
+
+Found a bug? Add a failing test first.
