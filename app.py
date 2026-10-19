@@ -24,7 +24,7 @@ def health():
 
 @app.get("/ping")
 def ping():
-    return "pong"
+    return jsonify(ping="pong")
 
 
 def add(a, b):
