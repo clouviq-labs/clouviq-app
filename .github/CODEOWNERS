@@ -1,0 +1,8 @@
+# Default owners for everything
+*                   @clouviq-labs/maintainers
+
+# Python code: the backend team (the last match wins)
+*.py                @clouviq-labs/backend
+
+# Protect this file too
+/.github/CODEOWNERS @clouviq-labs/maintainers
