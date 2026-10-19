@@ -5,6 +5,7 @@ on:
     paths-ignore: ["**.md"]
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  merge_group:
   schedule:
     - cron: "17 6 * * 1"
   workflow_dispatch:
