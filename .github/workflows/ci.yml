@@ -15,11 +15,7 @@ permissions:
   contents: read
 jobs:
   lint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v7
-      - run: pipx run ruff check .
+    uses: clouviq-labs/shared-workflows/.github/workflows/python-lint.yml@v1
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -36,11 +32,9 @@ jobs:
             python: "3.14"
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: clouviq-labs/shared-workflows/setup-app@v1
         with:
           python-version: ${{ matrix.python }}
-          cache: pip
-      - run: pip install -r requirements.txt
       - run: pytest -q
   build:
     needs: [lint, test]
