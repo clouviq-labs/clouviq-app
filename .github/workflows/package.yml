@@ -1,0 +1,48 @@
+name: Package
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Pick a version
+        id: meta
+        run: echo "version=1.0.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build the package
+        run: |
+          mkdir dist
+          tar -czf dist/clouviq-app.tar.gz app.py requirements.txt
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: app-package
+          path: dist/
+          retention-days: 1
+
+  check:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: app-package
+
+      - name: Write a summary
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          SIZE=$(stat -c %s clouviq-app.tar.gz)
+          {
+            echo "### Package ready"
+            echo "| Version | File | Size |"
+            echo "| --- | --- | --- |"
+            echo "| $VERSION | clouviq-app.tar.gz | $SIZE bytes |"
+          } >> "$GITHUB_STEP_SUMMARY"
