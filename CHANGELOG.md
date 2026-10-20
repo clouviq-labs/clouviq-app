@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/clouviq-labs/clouviq-app/compare/v1.1.0...v1.2.0) (2026-10-20)
+
+
+### Features
+
+* publish a container image to GHCR ([#22](https://github.com/clouviq-labs/clouviq-app/issues/22)) ([afd1598](https://github.com/clouviq-labs/clouviq-app/commit/afd1598aba167449bc3a1422b257ed7ffd50dd18))
+
 ## [1.1.0](https://github.com/clouviq-labs/clouviq-app/compare/v1.0.0...v1.1.0) (2026-10-20)
 
 
