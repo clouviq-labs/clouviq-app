@@ -1,5 +1,6 @@
 """clouviq-app: the tiny web app every GitHub Masterclass demo builds, tests, releases and deploys."""
 import os
+from datetime import UTC, datetime
 
 from flask import Flask, jsonify
 
@@ -25,6 +26,11 @@ def health():
 @app.get("/ping")
 def ping():
     return jsonify(ping="pong")
+
+
+@app.get("/time")
+def time():
+    return jsonify(utc=datetime.now(UTC).isoformat())
 
 
 def add(a, b):
