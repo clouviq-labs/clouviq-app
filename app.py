@@ -4,7 +4,7 @@ import os
 from flask import Flask, jsonify
 
 app = Flask(__name__)
-VERSION = os.environ.get("APP_VERSION", "dev")
+VERSION = os.environ.get("APP_VERSION", "dev").strip()
 
 
 def feature_on(name):
