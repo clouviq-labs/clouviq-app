@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - run: echo "Deploying ${GITHUB_SHA::7} to staging"
+
+  prod:
+    needs: staging
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: https://github.com/clouviq-labs/clouviq-app/pkgs/container/clouviq-app
+    steps:
+      - name: Deploy to prod
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          echo "Token available: ${DEPLOY_TOKEN:+yes}"
+          echo "Deploying ${GITHUB_SHA::7} to prod"
