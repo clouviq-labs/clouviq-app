@@ -30,7 +30,7 @@ def ping():
 
 @app.get("/time")
 def time():
-    return jsonify(utc=datetime.now(UTC).isoformat())
+    return jsonify(utc=datetime.now(UTC).isoformat(timespec="seconds"))
 
 
 def add(a, b):
