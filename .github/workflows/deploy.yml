@@ -27,6 +27,7 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+          build-args: APP_VERSION=${{ github.sha }}
 
   dev:
     needs: build
@@ -76,10 +77,22 @@ jobs:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: eu-north-1
           mask-aws-account-id: true
-      - name: Deploy
-        run: echo "Deploying $IMAGE to prod"
-      - name: Smoke test
-        run: |
-          docker run -d -q -p 8080:8080 "$IMAGE"
-          curl -fsS --retry 10 --retry-all-errors --retry-delay 1 localhost:8080/health
-          echo "prod runs ${IMAGE#*@}" >> "$GITHUB_STEP_SUMMARY"
+      - name: Read the running task definition
+        run: aws ecs describe-task-definition --task-definition clouviq-app --query taskDefinition > task-def.json
+      - name: Swap in the new image
+        id: render
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-def.json
+          container-name: app
+          image: ${{ env.IMAGE }}
+      - name: Blue/green deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render.outputs.task-definition }}
+          cluster: clouviq-lab
+          service: clouviq-app
+          wait-for-service-stability: true
+          wait-max-delay-seconds: 15
+      - name: Summary
+        run: echo "prod runs ${IMAGE#*@}" >> "$GITHUB_STEP_SUMMARY"
