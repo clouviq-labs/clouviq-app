@@ -19,7 +19,18 @@ jobs:
     environment:
       name: prod
       url: https://github.com/clouviq-labs/clouviq-app/pkgs/container/clouviq-app
+    permissions:
+      contents: read
+      id-token: write
     steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+          mask-aws-account-id: true
+      - name: Who am I in AWS?
+        run: aws sts get-caller-identity
       - name: Deploy to prod
         env:
           DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
