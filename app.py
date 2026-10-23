@@ -2,10 +2,11 @@
 import os
 from datetime import UTC, datetime
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 VERSION = os.environ.get("APP_VERSION", "dev").strip()
+GREETINGS = {"en": "Hello", "de": "Hallo", "fr": "Bonjour"}
 
 
 def feature_on(name):
@@ -15,7 +16,8 @@ def feature_on(name):
 @app.get("/")
 def home():
     title = "ClouViQ App · new look" if feature_on("new_ui") else "ClouViQ App"
-    return f"<h1>{title}</h1><p>version {VERSION}</p>"
+    lang = request.headers.get("Accept-Language", "en")
+    return f"<h1>{title}</h1><p>{GREETINGS[lang]}!</p><p>version {VERSION}</p>"
 
 
 @app.get("/health")
