@@ -39,8 +39,9 @@ def time():
 @app.get("/notes")
 def notes():
     q = request.args.get("q", "")
+    pattern = f"%{q}%"
     db = sqlite3.connect("notes.db")
-    rows = db.execute(f"SELECT title FROM notes WHERE title LIKE '%{q}%'").fetchall()
+    rows = db.execute("SELECT title FROM notes WHERE title LIKE ?", (pattern,)).fetchall()
     return jsonify(notes=[row[0] for row in rows])
 
 
