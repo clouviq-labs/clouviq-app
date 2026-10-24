@@ -16,7 +16,7 @@ permissions:
   contents: read
 jobs:
   lint:
-    uses: clouviq-labs/shared-workflows/.github/workflows/python-lint.yml@v1
+    uses: clouviq-labs/shared-workflows/.github/workflows/python-lint.yml@9eef0206aafbe6e6563ba52285fefe0649de6b57 # v2
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -32,8 +32,8 @@ jobs:
           - os: ubuntu-latest
             python: "3.14"
     steps:
-      - uses: actions/checkout@v7
-      - uses: clouviq-labs/shared-workflows/setup-app@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: clouviq-labs/shared-workflows/setup-app@9eef0206aafbe6e6563ba52285fefe0649de6b57 # v2
         with:
           python-version: ${{ matrix.python }}
       - run: pytest -q
@@ -43,5 +43,5 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: docker build -t clouviq-app .
