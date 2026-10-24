@@ -6,14 +6,22 @@ permissions:
   contents: read
 jobs:
   deploy:
-    # Only a "/deploy staging" comment on a pull request, from someone with write access.
+    # Only a "/deploy staging" comment on a pull request.
     if: >-
       github.event.issue.pull_request &&
-      startsWith(github.event.comment.body, '/deploy staging') &&
-      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+      startsWith(github.event.comment.body, '/deploy staging')
     runs-on: ubuntu-latest
     environment: staging
     steps:
+      - name: Check the commenter can write
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const user = context.payload.comment.user.login;
+            const { data } = await github.rest.repos.getCollaboratorPermissionLevel({ ...context.repo, username: user });
+            if (!['admin', 'write'].includes(data.permission)) {
+              core.setFailed(`Only people with write access can deploy (${data.permission}).`);
+            }
       - name: Get a GitHub App token
         id: app
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
