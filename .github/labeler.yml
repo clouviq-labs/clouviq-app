@@ -1,0 +1,12 @@
+# Labels added by the Labeler workflow, by changed path.
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**", "**/*.md"]
+
+github_actions:
+  - changed-files:
+      - any-glob-to-any-file: ".github/workflows/**"
+
+python:
+  - changed-files:
+      - any-glob-to-any-file: ["**/*.py", "requirements.txt"]
