@@ -29,7 +29,8 @@ jobs:
           client-id: ${{ vars.BOT_CLIENT_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
       - name: Deploy to staging
-        run: echo "Deploying pull request #$PR to staging"
+        run: |
+          echo "Deploying pull request #$PR to staging"
         env:
           PR: ${{ github.event.issue.number }}
       - name: Reply as the bot
