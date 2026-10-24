@@ -1,0 +1,10 @@
+on:
+  issues:
+    types: [opened]
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "New issue: ${{ github.event.issue.title }}"
+        env:
+          TOKEN: ${{ secrets.SLACK_TOKEN }}

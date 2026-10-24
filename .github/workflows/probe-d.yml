@@ -1,0 +1,10 @@
+on:
+  issues:
+    types: [opened]
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - run: echo "New issue: ${{ github.event.issue.title }}"
