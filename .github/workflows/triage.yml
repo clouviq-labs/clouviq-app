@@ -2,17 +2,12 @@ name: Triage
 on:
   issues:
     types: [opened]
-  pull_request_target:
-    types: [opened]
-permissions:
-  issues: write
-  pull-requests: write
 jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-      - name: Log the new item
-        run: echo "New: ${{ github.event.issue.title }}${{ github.event.pull_request.title }}"
+      - name: Log the new issue
+        run: echo "New issue: ${{ github.event.issue.title }}"
       - uses: actions/github-script@v8
         with:
           script: |
