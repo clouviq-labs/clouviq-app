@@ -1,5 +1,6 @@
 """clouviq-app: the tiny web app every GitHub Masterclass demo builds, tests, releases and deploys."""
 import os
+import sqlite3
 from datetime import UTC, datetime
 
 from flask import Flask, jsonify, request
@@ -33,6 +34,14 @@ def ping():
 @app.get("/time")
 def time():
     return jsonify(utc=datetime.now(UTC).isoformat())
+
+
+@app.get("/notes")
+def notes():
+    q = request.args.get("q", "")
+    db = sqlite3.connect("notes.db")
+    rows = db.execute(f"SELECT title FROM notes WHERE title LIKE '%{q}%'").fetchall()
+    return jsonify(notes=[row[0] for row in rows])
 
 
 def add(a, b):
