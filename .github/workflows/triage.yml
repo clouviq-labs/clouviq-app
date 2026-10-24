@@ -1,0 +1,22 @@
+name: Issue triage
+on:
+  issues:
+    types: [opened]
+  pull_request:
+permissions:
+  issues: write
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log the new issue
+        run: echo "New issue: ${{ github.event.issue.title }}"
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            if (context.eventName !== "issues") return;
+            await github.rest.issues.addLabels({
+              ...context.repo,
+              issue_number: context.issue.number,
+              labels: ["triage"],
+            });
