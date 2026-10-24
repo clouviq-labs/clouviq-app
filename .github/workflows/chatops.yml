@@ -1,0 +1,41 @@
+name: ChatOps
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  contents: read
+jobs:
+  deploy:
+    # Only a "/deploy staging" comment on a pull request, from someone with write access.
+    if: >-
+      github.event.issue.pull_request &&
+      startsWith(github.event.comment.body, '/deploy staging') &&
+      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Get a GitHub App token
+        id: app
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.BOT_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+      - name: Deploy to staging
+        run: echo "Deploying pull request #$PR to staging"
+        env:
+          PR: ${{ github.event.issue.number }}
+      - name: Reply as the bot
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ steps.app.outputs.token }}
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              ...context.repo,
+              comment_id: context.payload.comment.id,
+              content: 'rocket',
+            });
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: `Deployed to staging. Run: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+            });
