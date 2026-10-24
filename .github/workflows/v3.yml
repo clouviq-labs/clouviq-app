@@ -1,0 +1,6 @@
+on: issue_comment
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "New comment: ${{ github.event.comment.body }}"

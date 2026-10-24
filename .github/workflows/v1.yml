@@ -1,0 +1,11 @@
+on: issue_comment
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "New comment: ${{ github.event.comment.body }}"
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            await github.rest.issues.addLabels({ ...context.repo, issue_number: context.issue.number, labels: ["triage"] });
