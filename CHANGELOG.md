@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/clouviq-labs/clouviq-app/compare/v1.2.0...v1.3.0) (2026-10-24)
+
+
+### Features
+
+* greet visitors in their language ([#31](https://github.com/clouviq-labs/clouviq-app/issues/31)) ([45806db](https://github.com/clouviq-labs/clouviq-app/commit/45806db8cb017d3887ecee415c542426d23c9374))
+
 ## [1.2.0](https://github.com/clouviq-labs/clouviq-app/compare/v1.1.0...v1.2.0) (2026-10-20)
 
 
